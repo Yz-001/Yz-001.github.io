@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>使用github+hexo快速搭建个人博客</title>
+      <link href="/2022/05/08/createBlog/"/>
+      <url>/2022/05/08/createBlog/</url>
+      
+        <content type="html"><![CDATA[<p>初始搭建</p><p>一.仓库配置</p><p>新建仓库</p><p>仓库名：[用户名]<a href="https://yz-001.github.io/">.github.io </a>           其中<a href="https://yz-001.github.io/">.github.io/</a>是固定写法</p><p>权限：公有</p><p>二.本地安装</p><p>1.npm install hexo-cli -g 安装 </p><p>2.hexo init  初始化 </p><p>3.hexo s 启动 </p><p>4.在-config.yml修改git信息 </p><p>deploye:  </p><p>  type:’git ‘ </p><p>  repository:git地址  </p><p>  branch:分支名</p><p>5.npm install hexo-deployer-git -S安装工具 </p><p>6.hexo g 生成页面 </p><p>7.hexo d 上传到git</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 工具 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
