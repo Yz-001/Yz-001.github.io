@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Js-继承 | 秃子会发光</title><meta name="keywords" content="JS"><meta name="author" content="Yz"><meta name="copyright" content="Yz"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="每个函数都有 prototype&#x3D;&#x3D;&#x3D;原型对象。函数实例化后，__proto__属性，指向原型对象属性封装在构造函数中  function A(name){this.name&#x3D;name}方法定义在原型对象上  xxx.prototype.say&#x3D;function(){xxx} 1.原型链继承【复用】优点：复用，因为会继承缺点：1.无法给父构造函数传参2.原型内的属性会被共享（基础数据类型不会继承">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Js-继承">
+<meta property="og:url" content="https://yz-001.github.io/2022/05/19/js-Inherit/index.html">
+<meta property="og:site_name" content="秃子会发光">
+<meta property="og:description" content="每个函数都有 prototype&#x3D;&#x3D;&#x3D;原型对象。函数实例化后，__proto__属性，指向原型对象属性封装在构造函数中  function A(name){this.name&#x3D;name}方法定义在原型对象上  xxx.prototype.say&#x3D;function(){xxx} 1.原型链继承【复用】优点：复用，因为会继承缺点：1.无法给父构造函数传参2.原型内的属性会被共享（基础数据类型不会继承">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img0.baidu.com/it/u=2815698659,750103319&fm=253&fmt=auto&app=138&f=PNG?w=499&h=170">
+<meta property="article:published_time" content="2022-05-19T04:56:33.000Z">
+<meta property="article:modified_time" content="2022-06-03T09:04:58.752Z">
+<meta property="article:author" content="Yz">
+<meta property="article:tag" content="JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img0.baidu.com/it/u=2815698659,750103319&fm=253&fmt=auto&app=138&f=PNG?w=499&h=170"><link rel="shortcut icon" href="/"><link rel="canonical" href="https://yz-001.github.io/2022/05/19/js-Inherit/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Js-继承',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-06-03 17:04:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友联</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img0.baidu.com/it/u=2815698659,750103319&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=499&amp;h=170')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">秃子会发光</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友联</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Js-继承</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-19T04:56:33.000Z" title="发表于 2022-05-19 12:56:33">2022-05-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-06-03T09:04:58.752Z" title="更新于 2022-06-03 17:04:58">2022-06-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Js-继承"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<h4 id="每个函数都有-prototype-原型对象。"><a href="#每个函数都有-prototype-原型对象。" class="headerlink" title="每个函数都有 prototype===原型对象。"></a>每个函数都有 prototype===原型对象。</h4><h4 id="函数实例化后，-proto-属性，指向原型对象"><a href="#函数实例化后，-proto-属性，指向原型对象" class="headerlink" title="函数实例化后，__proto__属性，指向原型对象"></a>函数实例化后，__proto__属性，指向原型对象</h4><h4 id="属性封装在构造函数中-function-A-name-this-name-name"><a href="#属性封装在构造函数中-function-A-name-this-name-name" class="headerlink" title="属性封装在构造函数中  function A(name){this.name=name}"></a>属性封装在构造函数中  function A(name){this.name=name}</h4><h4 id="方法定义在原型对象上-xxx-prototype-say-function-xxx"><a href="#方法定义在原型对象上-xxx-prototype-say-function-xxx" class="headerlink" title="方法定义在原型对象上  xxx.prototype.say=function(){xxx}"></a>方法定义在原型对象上  xxx.prototype.say=function(){xxx}</h4></blockquote>
+<h3 id="1-原型链继承【复用】"><a href="#1-原型链继承【复用】" class="headerlink" title="1.原型链继承【复用】"></a>1.原型链继承【复用】</h3><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><h4 id="复用，因为会继承"><a href="#复用，因为会继承" class="headerlink" title="复用，因为会继承"></a>复用，因为会继承</h4><h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><h4 id="1-无法给父构造函数传参"><a href="#1-无法给父构造函数传参" class="headerlink" title="1.无法给父构造函数传参"></a>1.无法给父构造函数传参</h4><h4 id="2-原型内的属性会被共享（基础数据类型不会继承改变，复杂数据类型会-数组，对象-）"><a href="#2-原型内的属性会被共享（基础数据类型不会继承改变，复杂数据类型会-数组，对象-）" class="headerlink" title="2.原型内的属性会被共享（基础数据类型不会继承改变，复杂数据类型会(数组，对象)）"></a>2.原型内的属性会被共享（基础数据类型不会继承改变，复杂数据类型会(数组，对象)）</h4><h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xxx.prototype=new xxx()</span><br><span class="line"></span><br><span class="line">B.prototype=new A()</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-构造函数【传参】"><a href="#2-构造函数【传参】" class="headerlink" title="2.构造函数【传参】"></a>2.构造函数【传参】</h3><h4 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h4><h4 id="构造属性继承，还能继承多个构造函数（call多个）"><a href="#构造属性继承，还能继承多个构造函数（call多个）" class="headerlink" title="构造属性继承，还能继承多个构造函数（call多个）"></a>构造属性继承，还能继承多个构造函数（call多个）</h4><h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><h4 id="不会继承方法，只纯纯继承构造函数"><a href="#不会继承方法，只纯纯继承构造函数" class="headerlink" title="不会继承方法，只纯纯继承构造函数"></a>不会继承方法，只纯纯继承构造函数</h4><h4 id="xxx-prototype-say-function-xxx-就是无"><a href="#xxx-prototype-say-function-xxx-就是无" class="headerlink" title="xxx.prototype.say=function(){xxx}  就是无"></a>xxx.prototype.say=function(){xxx}  就是无</h4><h6 id="实现：xxx-call-this-xxx…"><a href="#实现：xxx-call-this-xxx…" class="headerlink" title="实现：xxx.call(this,xxx…)"></a>实现：xxx.call(this,xxx…)</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function A(name,age)&#123;</span><br><span class="line"></span><br><span class="line">   this.name=name</span><br><span class="line"></span><br><span class="line">   this.age=age</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function B(name,age)&#123;</span><br><span class="line"></span><br><span class="line">   A.call(this,name,age)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-组合继承【传参，复用】"><a href="#3-组合继承【传参，复用】" class="headerlink" title="3.组合继承【传参，复用】"></a>3.组合继承【传参，复用】</h3><h4 id="结合原型链继承-构造函数方法"><a href="#结合原型链继承-构造函数方法" class="headerlink" title="结合原型链继承+构造函数方法"></a>结合原型链继承+构造函数方法</h4><h4 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h4><h4 id="可以继承父类原型上的属性，可以传参，可复用，每个新实例引入的构造函数属性是私有的。"><a href="#可以继承父类原型上的属性，可以传参，可复用，每个新实例引入的构造函数属性是私有的。" class="headerlink" title="可以继承父类原型上的属性，可以传参，可复用，每个新实例引入的构造函数属性是私有的。"></a>可以继承父类原型上的属性，可以传参，可复用，每个新实例引入的构造函数属性是私有的。</h4><h4 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h4><h4 id="调用了两次父类构造函数（耗内存），子类的构造函数会代替原型上的那个父类构造函数。"><a href="#调用了两次父类构造函数（耗内存），子类的构造函数会代替原型上的那个父类构造函数。" class="headerlink" title="调用了两次父类构造函数（耗内存），子类的构造函数会代替原型上的那个父类构造函数。"></a>调用了两次父类构造函数（耗内存），子类的构造函数会代替原型上的那个父类构造函数。</h4><h6 id="实现：-1"><a href="#实现：-1" class="headerlink" title="实现："></a>实现：</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function B(name,age)&#123;</span><br><span class="line"></span><br><span class="line">   A.call(this,name,age)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">B.prototype=new A()</span><br></pre></td></tr></table></figure>
+
+<h5 id=""><a href="#" class="headerlink" title=""></a></h5><h3 id="4-寄生组合继承-常用"><a href="#4-寄生组合继承-常用" class="headerlink" title="4.寄生组合继承(常用)"></a>4.寄生组合继承(常用)</h3><h4 id="创建一个对象只想-A-prototype-，这样修改就不影响B的prototype"><a href="#创建一个对象只想-A-prototype-，这样修改就不影响B的prototype" class="headerlink" title="创建一个对象只想(A.prototype)，这样修改就不影响B的prototype"></a>创建一个对象只想(A.prototype)，这样修改就不影响B的prototype</h4><h4 id="instanceof-判断元素是否在另一个元素的原型链上"><a href="#instanceof-判断元素是否在另一个元素的原型链上" class="headerlink" title="instanceof  判断元素是否在另一个元素的原型链上"></a>instanceof  判断元素是否在另一个元素的原型链上</h4><h6 id="实现：-2"><a href="#实现：-2" class="headerlink" title="实现："></a>实现：</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function B(name,age)&#123;</span><br><span class="line"></span><br><span class="line">   A.call(this,name,age)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">B.prototype=Object.create(A.prototype)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-原型式继承"><a href="#5-原型式继承" class="headerlink" title="5.原型式继承"></a>5.原型式继承</h3><h4 id="重点：用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的实例或对象。object-create-就是这个原理。"><a href="#重点：用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的实例或对象。object-create-就是这个原理。" class="headerlink" title="重点：用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的实例或对象。object.create()就是这个原理。"></a>重点：用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的实例或对象。object.create()就是这个原理。</h4><h4 id="特点：类似于复制一个对象，用函数来包装。"><a href="#特点：类似于复制一个对象，用函数来包装。" class="headerlink" title="特点：类似于复制一个对象，用函数来包装。"></a>特点：类似于复制一个对象，用函数来包装。</h4><h4 id="缺点：1、所有实例都会继承原型上的属性。"><a href="#缺点：1、所有实例都会继承原型上的属性。" class="headerlink" title="缺点：1、所有实例都会继承原型上的属性。"></a>缺点：1、所有实例都会继承原型上的属性。</h4><h4 id="2、无法实现复用。（新实例属性都是后面添加的）"><a href="#2、无法实现复用。（新实例属性都是后面添加的）" class="headerlink" title="2、无法实现复用。（新实例属性都是后面添加的）"></a>2、无法实现复用。（新实例属性都是后面添加的）</h4><h5 id="-1"><a href="#-1" class="headerlink" title=""></a></h5></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://yz-001.github.io">Yz</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yz-001.github.io/2022/05/19/js-Inherit/">https://yz-001.github.io/2022/05/19/js-Inherit/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yz-001.github.io" target="_blank">秃子会发光</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JS/">JS</a></div><div class="post_share"><div class="social-share" data-image="https://img0.baidu.com/it/u=2815698659,750103319&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=499&amp;h=170" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/26/vue-componentCommuni/"><img class="prev-cover" src="https://cn.vuejs.org/images/logo.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">vue-组件通信</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/19/js-for/"><img class="next-cover" src="https://img0.baidu.com/it/u=2815698659,750103319&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=499&amp;h=170" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Js-循环</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/05/19/js-for/" title="Js-循环"><img class="cover" src="https://img0.baidu.com/it/u=2815698659,750103319&fm=253&fmt=auto&app=138&f=PNG?w=499&h=170" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-19</div><div class="title">Js-循环</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yz</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yz-001"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AF%8F%E4%B8%AA%E5%87%BD%E6%95%B0%E9%83%BD%E6%9C%89-prototype-%E5%8E%9F%E5%9E%8B%E5%AF%B9%E8%B1%A1%E3%80%82"><span class="toc-number">1.</span> <span class="toc-text">每个函数都有 prototype&#x3D;&#x3D;&#x3D;原型对象。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%90%8E%EF%BC%8C-proto-%E5%B1%9E%E6%80%A7%EF%BC%8C%E6%8C%87%E5%90%91%E5%8E%9F%E5%9E%8B%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.</span> <span class="toc-text">函数实例化后，__proto__属性，指向原型对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E5%B0%81%E8%A3%85%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD-function-A-name-this-name-name"><span class="toc-number">3.</span> <span class="toc-text">属性封装在构造函数中  function A(name){this.name&#x3D;name}</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%AE%9A%E4%B9%89%E5%9C%A8%E5%8E%9F%E5%9E%8B%E5%AF%B9%E8%B1%A1%E4%B8%8A-xxx-prototype-say-function-xxx"><span class="toc-number">4.</span> <span class="toc-text">方法定义在原型对象上  xxx.prototype.say&#x3D;function(){xxx}</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%BB%A7%E6%89%BF%E3%80%90%E5%A4%8D%E7%94%A8%E3%80%91"><span class="toc-number"></span> <span class="toc-text">1.原型链继承【复用】</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%8D%E7%94%A8%EF%BC%8C%E5%9B%A0%E4%B8%BA%E4%BC%9A%E7%BB%A7%E6%89%BF"><span class="toc-number">2.</span> <span class="toc-text">复用，因为会继承</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">缺点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%97%A0%E6%B3%95%E7%BB%99%E7%88%B6%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82"><span class="toc-number">4.</span> <span class="toc-text">1.无法给父构造函数传参</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8E%9F%E5%9E%8B%E5%86%85%E7%9A%84%E5%B1%9E%E6%80%A7%E4%BC%9A%E8%A2%AB%E5%85%B1%E4%BA%AB%EF%BC%88%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8D%E4%BC%9A%E7%BB%A7%E6%89%BF%E6%94%B9%E5%8F%98%EF%BC%8C%E5%A4%8D%E6%9D%82%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%BC%9A-%E6%95%B0%E7%BB%84%EF%BC%8C%E5%AF%B9%E8%B1%A1-%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">2.原型内的属性会被共享（基础数据类型不会继承改变，复杂数据类型会(数组，对象)）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">实现：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%90%E4%BC%A0%E5%8F%82%E3%80%91"><span class="toc-number"></span> <span class="toc-text">2.构造函数【传参】</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A-1"><span class="toc-number">1.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%B1%9E%E6%80%A7%E7%BB%A7%E6%89%BF%EF%BC%8C%E8%BF%98%E8%83%BD%E7%BB%A7%E6%89%BF%E5%A4%9A%E4%B8%AA%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%EF%BC%88call%E5%A4%9A%E4%B8%AA%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">构造属性继承，还能继承多个构造函数（call多个）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E4%BC%9A%E7%BB%A7%E6%89%BF%E6%96%B9%E6%B3%95%EF%BC%8C%E5%8F%AA%E7%BA%AF%E7%BA%AF%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">不会继承方法，只纯纯继承构造函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xxx-prototype-say-function-xxx-%E5%B0%B1%E6%98%AF%E6%97%A0"><span class="toc-number">5.</span> <span class="toc-text">xxx.prototype.say&#x3D;function(){xxx}  就是无</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%EF%BC%9Axxx-call-this-xxx%E2%80%A6"><span class="toc-number">5.0.1.</span> <span class="toc-text">实现：xxx.call(this,xxx…)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF%E3%80%90%E4%BC%A0%E5%8F%82%EF%BC%8C%E5%A4%8D%E7%94%A8%E3%80%91"><span class="toc-number"></span> <span class="toc-text">3.组合继承【传参，复用】</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E5%90%88%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%BB%A7%E6%89%BF-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">结合原型链继承+构造函数方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A-2"><span class="toc-number">2.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E4%BB%A5%E7%BB%A7%E6%89%BF%E7%88%B6%E7%B1%BB%E5%8E%9F%E5%9E%8B%E4%B8%8A%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%8C%E5%8F%AF%E4%BB%A5%E4%BC%A0%E5%8F%82%EF%BC%8C%E5%8F%AF%E5%A4%8D%E7%94%A8%EF%BC%8C%E6%AF%8F%E4%B8%AA%E6%96%B0%E5%AE%9E%E4%BE%8B%E5%BC%95%E5%85%A5%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%B1%9E%E6%80%A7%E6%98%AF%E7%A7%81%E6%9C%89%E7%9A%84%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">可以继承父类原型上的属性，可以传参，可复用，每个新实例引入的构造函数属性是私有的。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A-1"><span class="toc-number">4.</span> <span class="toc-text">缺点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E4%BA%86%E4%B8%A4%E6%AC%A1%E7%88%B6%E7%B1%BB%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%EF%BC%88%E8%80%97%E5%86%85%E5%AD%98%EF%BC%89%EF%BC%8C%E5%AD%90%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%BC%9A%E4%BB%A3%E6%9B%BF%E5%8E%9F%E5%9E%8B%E4%B8%8A%E7%9A%84%E9%82%A3%E4%B8%AA%E7%88%B6%E7%B1%BB%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%82"><span class="toc-number">5.</span> <span class="toc-text">调用了两次父类构造函数（耗内存），子类的构造函数会代替原型上的那个父类构造函数。</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%EF%BC%9A-1"><span class="toc-number">5.0.1.</span> <span class="toc-text">实现：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">5.1.</span> <span class="toc-text"></span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF-%E5%B8%B8%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">4.寄生组合继承(常用)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%8F%AA%E6%83%B3-A-prototype-%EF%BC%8C%E8%BF%99%E6%A0%B7%E4%BF%AE%E6%94%B9%E5%B0%B1%E4%B8%8D%E5%BD%B1%E5%93%8DB%E7%9A%84prototype"><span class="toc-number">1.</span> <span class="toc-text">创建一个对象只想(A.prototype)，这样修改就不影响B的prototype</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#instanceof-%E5%88%A4%E6%96%AD%E5%85%83%E7%B4%A0%E6%98%AF%E5%90%A6%E5%9C%A8%E5%8F%A6%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%93%BE%E4%B8%8A"><span class="toc-number">2.</span> <span class="toc-text">instanceof  判断元素是否在另一个元素的原型链上</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%EF%BC%9A-2"><span class="toc-number">2.0.1.</span> <span class="toc-text">实现：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%8E%9F%E5%9E%8B%E5%BC%8F%E7%BB%A7%E6%89%BF"><span class="toc-number"></span> <span class="toc-text">5.原型式继承</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E7%82%B9%EF%BC%9A%E7%94%A8%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E5%8C%85%E8%A3%85%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%EF%BC%8C%E7%84%B6%E5%90%8E%E8%BF%94%E5%9B%9E%E8%BF%99%E4%B8%AA%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8%EF%BC%8C%E8%BF%99%E4%B8%AA%E5%87%BD%E6%95%B0%E5%B0%B1%E5%8F%98%E6%88%90%E4%BA%86%E4%B8%AA%E5%8F%AF%E4%BB%A5%E9%9A%8F%E6%84%8F%E5%A2%9E%E6%B7%BB%E5%B1%9E%E6%80%A7%E7%9A%84%E5%AE%9E%E4%BE%8B%E6%88%96%E5%AF%B9%E8%B1%A1%E3%80%82object-create-%E5%B0%B1%E6%98%AF%E8%BF%99%E4%B8%AA%E5%8E%9F%E7%90%86%E3%80%82"><span class="toc-number">1.</span> <span class="toc-text">重点：用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的实例或对象。object.create()就是这个原理。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E7%82%B9%EF%BC%9A%E7%B1%BB%E4%BC%BC%E4%BA%8E%E5%A4%8D%E5%88%B6%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%EF%BC%8C%E7%94%A8%E5%87%BD%E6%95%B0%E6%9D%A5%E5%8C%85%E8%A3%85%E3%80%82"><span class="toc-number">2.</span> <span class="toc-text">特点：类似于复制一个对象，用函数来包装。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A1%E3%80%81%E6%89%80%E6%9C%89%E5%AE%9E%E4%BE%8B%E9%83%BD%E4%BC%9A%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%9E%8B%E4%B8%8A%E7%9A%84%E5%B1%9E%E6%80%A7%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">缺点：1、所有实例都会继承原型上的属性。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E6%97%A0%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%A4%8D%E7%94%A8%E3%80%82%EF%BC%88%E6%96%B0%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7%E9%83%BD%E6%98%AF%E5%90%8E%E9%9D%A2%E6%B7%BB%E5%8A%A0%E7%9A%84%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">2、无法实现复用。（新实例属性都是后面添加的）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#-1"><span class="toc-number">4.1.</span> <span class="toc-text"></span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/26/vue-componentCommuni/" title="vue-组件通信"><img src="https://cn.vuejs.org/images/logo.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vue-组件通信"/></a><div class="content"><a class="title" href="/2022/05/26/vue-componentCommuni/" title="vue-组件通信">vue-组件通信</a><time datetime="2022-05-26T04:50:35.000Z" title="发表于 2022-05-26 12:50:35">2022-05-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/19/js-Inherit/" title="Js-继承"><img src="https://img0.baidu.com/it/u=2815698659,750103319&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=499&amp;h=170" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Js-继承"/></a><div class="content"><a class="title" href="/2022/05/19/js-Inherit/" title="Js-继承">Js-继承</a><time datetime="2022-05-19T04:56:33.000Z" title="发表于 2022-05-19 12:56:33">2022-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/19/js-for/" title="Js-循环"><img src="https://img0.baidu.com/it/u=2815698659,750103319&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=499&amp;h=170" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Js-循环"/></a><div class="content"><a class="title" href="/2022/05/19/js-for/" title="Js-循环">Js-循环</a><time datetime="2022-05-19T04:56:33.000Z" title="发表于 2022-05-19 12:56:33">2022-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/12/google-console/" title="谷歌控制台-F12"><img src="https://bkimg.cdn.bcebos.com/pic/9d82d158ccbf6c81800ad2ac7a74a63533fa828bea16?x-bce-process=image/resize,m_lfit,w_536,limit_1/format,f_jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="谷歌控制台-F12"/></a><div class="content"><a class="title" href="/2022/05/12/google-console/" title="谷歌控制台-F12">谷歌控制台-F12</a><time datetime="2022-05-12T05:47:55.000Z" title="发表于 2022-05-12 13:47:55">2022-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/08/tool-jsdoc/" title="Jsdoc一个JavaScript API文档生成器"><img src="https://img0.baidu.com/it/u=2815698659,750103319&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=499&amp;h=170" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Jsdoc一个JavaScript API文档生成器"/></a><div class="content"><a class="title" href="/2022/05/08/tool-jsdoc/" title="Jsdoc一个JavaScript API文档生成器">Jsdoc一个JavaScript API文档生成器</a><time datetime="2022-05-08T13:47:55.000Z" title="发表于 2022-05-08 21:47:55">2022-05-08</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Yz</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'mxQDIN38yngLhGp4GhFdyWKG-gzGzoHsz',
+      appKey: 'XFN9Jx92gvdvdTn7ilzrU7bf',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://yz-001.github.io/2022/05/19/js-Inherit/'
+    this.page.identifier = '2022/05/19/js-Inherit/'
+    this.page.title = 'Js-继承'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Valine' === 'Disqus' || !true) {
+  if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
